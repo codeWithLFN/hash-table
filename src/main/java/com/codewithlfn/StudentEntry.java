@@ -1,5 +1,6 @@
 package com.codewithlfn;
 
+// each entry holds a student id, their name, and a link to the next entry in the same bucket
 public class StudentEntry {
     String studentId;
     String fullName;

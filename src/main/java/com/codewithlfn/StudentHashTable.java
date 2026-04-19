@@ -4,24 +4,23 @@ public class StudentHashTable {
     private StudentEntry[] buckets;
     private int numOfBuckets;
 
-    // Constructor
     public StudentHashTable(int capacity) {
         this.numOfBuckets = capacity;
         this.buckets = new StudentEntry[capacity];
     }
 
-    // methods to calculate the array index for a given ID
+    // figures out which bucket a student id belongs in
     private int getBucketIndex(String studentId) {
         int hashcode = studentId.hashCode();
         return Math.abs(hashcode % numOfBuckets);
     }
 
-    // Insert a student into the hash table
+    // adds a student to the table, if the id already exists we just update the name
     public void insert(String studentId, String fullName) {
         int index = getBucketIndex(studentId);
         StudentEntry currentEntry = buckets[index];
 
-        // Check if the student ID already exists, if so update the name
+        // walk through the chain to see if this id is already there
         while (currentEntry != null) {
             if (currentEntry.studentId.equals(studentId)) {
                 currentEntry.fullName = fullName;
@@ -30,17 +29,18 @@ public class StudentHashTable {
             currentEntry = currentEntry.next;
         }
 
+        // id not found so we add a new entry at the front of the chain
         StudentEntry newStudent = new StudentEntry(studentId, fullName);
         newStudent.next = buckets[index];
         buckets[index] = newStudent;
     }
 
-    // Search for a student by ID
+    // looks up a student by their id and returns their name
     public String search(String studentId) {
         int index = getBucketIndex(studentId);
         StudentEntry currentEntry = buckets[index];
 
-        // Traverse the linked list at this bucket to find the student ID
+        // go through the chain until we find a match
         while (currentEntry != null) {
             if (currentEntry.studentId.equals(studentId)) {
                 return currentEntry.fullName;
@@ -50,6 +50,7 @@ public class StudentHashTable {
         return "Student not found";
     }
 
+    // removes a student from the table using their id
     public void delete(String studentId) {
         int index = getBucketIndex(studentId);
         StudentEntry currentEntry = buckets[index];
@@ -57,19 +58,19 @@ public class StudentHashTable {
 
         while (currentEntry != null) {
             if (currentEntry.studentId.equals(studentId)) {
-                // If the current entry is the head of the list, delete it
+                // if its the first entry in the bucket just move the head forward
                 if (prevEntry == null) {
-                    buckets[index] = currentEntry.next; // Deleting the head of the list
+                    buckets[index] = currentEntry.next;
                 } else {
-                    // If the current entry is not the head, update the previous entry's next pointer'
-                    prevEntry.next = currentEntry.next; // Bypass the current entry
+                    // otherwise skip over the entry we want to remove
+                    prevEntry.next = currentEntry.next;
                 }
-                System.out.println("Deleted student with ID: " + studentId );
+                System.out.println("Deleted student with ID: " + studentId + " and name: " + currentEntry.fullName);
                 return;
             }
             prevEntry = currentEntry;
             currentEntry = currentEntry.next;
         }
-        System.out.println("Student with ID: " + studentId + " not found for deletion.");
+        System.out.println("no student found with ID: " + studentId);
     }
 }

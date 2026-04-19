@@ -4,22 +4,25 @@ public class Main {
     public static void main(String[] args) {
         StudentHashTable hashTable = new StudentHashTable(10);
 
-        System.out.println("--- 1. INSERTING RECORDS ---");
-        hashTable.insert("TUT001", "Thabo Ndlovu");
-        hashTable.insert("TUT002", "Lerato Mokoena");
-        hashTable.insert("TUT003", "Sipho Dlamini");
-        System.out.println("Records added successfully.\n");
+        // add some students to the table
+        System.out.println("--- adding student records ---");
+        hashTable.insert("TUT1", "Thabo Vundle");
+        hashTable.insert("TUT2", "Legato Modena");
+        hashTable.insert("TUT3", "Siphon Dlamini");
+        System.out.println("all records added.\n");
 
-        System.out.println("--- 2. SEARCHING RECORDS ---");
-        System.out.println("Searching for TUT002: " + hashTable.search("TUT002"));
-        System.out.println("Searching for TUT009: " + hashTable.search("TUT009"));
+        // search for a student that exists and one that doesnt
+        System.out.println("--- searching for students ---");
+        System.out.println("looking up TUT2: " + hashTable.search("TUT2"));
+        System.out.println("looking up TUT9: " + hashTable.search("TUT9"));
         System.out.println();
 
-        System.out.println("--- 3. DELETING RECORDS ---");
-        hashTable.delete("TUT001");
+        // remove a student from the table
+        System.out.println("--- removing a student ---");
+        hashTable.delete("TUT1");
 
-        System.out.println("\n--- 4. VERIFYING DELETION ---");
-        System.out.println("Searching for TUT001: " + hashTable.search("TUT001"));
-
+        // check that they were actually removed
+        System.out.println("\n--- confirming deletion ---");
+        System.out.println("looking up TUT1: " + hashTable.search("TUT1"));
     }
 }
